@@ -1,0 +1,89 @@
+/* ====== CONFIGURACIÓN GLOBAL ====== */
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #212529;
+  background-color: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ====== GENERAL ====== */
+body {
+  margin: 0;
+  padding-top: 90px; /* 🔹 Espacio para navbar fijo */
+  background-color: #fff;
+  color: #212529;
+  min-height: 100vh;
+}
+
+/* ====== TIPOGRAFÍA ====== */
+h1, h2, h3, h4, h5, h6 {
+  color: #212529;
+  font-weight: 600;
+}
+
+a {
+  color: #198754; /* Verde Bootstrap */
+  text-decoration: none;
+  font-weight: 500;
+}
+a:hover {
+  color: #145c32;
+  text-decoration: underline;
+}
+
+/* ====== BOTONES ====== */
+button, .btn {
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all 0.25s ease;
+}
+
+.btn-outline-dark:hover {
+  background-color: #198754;
+  border-color: #198754;
+  color: white;
+}
+
+/* ====== SECCIONES ====== */
+section {
+  margin-bottom: 3rem;
+}
+
+/* ====== NAVBAR ====== */
+.navbar-brand {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  color: #212529;
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: #198754;
+  text-decoration: none;
+}
+
+/* ====== MODO OSCURO (opcional) ====== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f1f1f1;
+    background-color: #121212;
+  }
+  a {
+    color: #66b2ff;
+  }
+  button {
+    background-color: #333;
+  }
+  button:hover {
+    background-color: #555;
+  }
+}
