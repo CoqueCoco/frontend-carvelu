@@ -2,61 +2,60 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { logout as authLogout } from '../services/AuthService';
 import { apiRequest } from '../api/api'; 
 
-// 1. Crear el contexto
 export const AuthContext = createContext();
 
-// Hook para usar el contexto fácilmente
 export const useAuth = () => useContext(AuthContext);
 
-// 2. Crear el Provider
 export const AuthProvider = ({ children }) => {
-  // Inicializa el estado del usuario. Almacena el nombre, email, etc.
   const [user, setUser] = useState(null); 
   const [isLoading, setIsLoading] = useState(true);
 
-  // Función que intenta recuperar el perfil del usuario (si hay token)
-  const fetchProfile = async () => {
-    try {
-      const profile = await apiRequest("/auth/profile", "GET");
-      // Asume que el endpoint /auth/profile devuelve un objeto { name, email, ... }
-      setUser({ name: profile.name, email: profile.email }); 
-    } catch (error) {
-      console.error("Error al obtener perfil:", error);
-      authLogout(); // Si falla, borra el token local por si está expirado o inválido
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Se ejecuta al cargar la aplicación para verificar si hay una sesión activa
+  // Cargar usuario y puntos guardados "localmente" para la demo
   useEffect(() => {
     const token = localStorage.getItem('token');
+    // Recuperamos los puntos guardados en el navegador (Simulación de DB)
+    const savedPoints = localStorage.getItem('demo_points');
+    const savedName = localStorage.getItem('demo_name'); // Opcional, si tienes el nombre guardado
+
     if (token) {
-        fetchProfile();
-    } else {
-        setIsLoading(false);
+       // Si hay token, asumimos que está logueado y restauramos los datos visuales
+       setUser({ 
+           email: "usuario@demo.com", // Email dummy o decodificado si quieres
+           name: savedName || "Cliente",
+           points: savedPoints ? parseInt(savedPoints) : 0 
+       });
     }
+    setIsLoading(false);
   }, []);
 
-  // Función para establecer el usuario al iniciar sesión (usada en Login.jsx)
   const loginUser = (userData) => {
-    setUser(userData);
+    // Al hacer login, guardamos el nombre para mostrarlo
+    localStorage.setItem('demo_name', userData.name || "Cliente");
+    setUser({ ...userData, points: 0 }); // Inicia con 0 puntos o los que tenga
   };
 
-  // Función para cerrar sesión
+  // ✅ ESTA ES LA MAGIA: Guardamos los puntos en el navegador
+  const addPoints = (amount) => {
+    setUser((prev) => {
+      const currentPoints = prev?.points || 0;
+      const newTotal = currentPoints + amount;
+      
+      // Persistir en localStorage para que no se borren al refrescar
+      localStorage.setItem('demo_points', newTotal);
+      
+      return { ...prev, points: newTotal };
+    });
+  };
+
   const logout = () => {
-    authLogout(); // Llama a la función que borra el token de localStorage
+    authLogout(); 
+    localStorage.removeItem('demo_points'); // Limpiamos puntos al salir (opcional)
+    localStorage.removeItem('demo_name');
     setUser(null);
   };
 
-  // Muestra un cargando mientras verifica si hay sesión (opcional)
-  if (isLoading) {
-    return <div className="text-center mt-5">Cargando sesión...</div>; 
-  }
-
   return (
-    <AuthContext.Provider value={{ user, loginUser, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, loginUser, logout, addPoints }}>
       {children}
     </AuthContext.Provider>
   );

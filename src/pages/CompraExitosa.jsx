@@ -5,7 +5,7 @@ function CompraExitosa() {
   return (
     <div className="container text-center my-5">
       <h2 className="text-success mb-4">✅ ¡Compra realizada con éxito!</h2>
-      <p>Gracias por tu compra. Pronto recibirás un correo con los detalles.</p>
+      <p>Gracias por tu compra. Muchas gracias por preferirnos.</p>
       <Link to="/" className="btn btn-success mt-3">
         Volver al inicio
       </Link>
