@@ -14,7 +14,6 @@ import Ofertas from "./pages/Ofertas.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import CompraExitosa from "./pages/CompraExitosa.jsx";
 import CompraFallida from "./pages/CompraFallida.jsx";
-import AdminPanel from "./pages/AdminPanel.jsx";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/compra-exitosa" element={<CompraExitosa />} />
         <Route path="/compra-fallida" element={<CompraFallida />} />
-        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </Router>
   );
